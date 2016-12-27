@@ -1,0 +1,80 @@
+1. Fichero traza_ce_10_2016.txt
+
+    Contiene la traza de ejecución del caso de uso de 10 CIUDADES, para los números aleatorios del fichero que se acompaña. Al ser 10 ciudades consideradas, el rango de los valores de las permutaciones es 1..9. Esto es únicamente a efectos de simplificar el análisis de la traza, ya que el ejercicio debe resolverse con 100 ciudades.
+
+    El caso de uso se ha construido siguiendo estrictamente el orden de operaciones indicado en el enunciado de la práctica:
+
+        1. generación de la población inicial: 50 soluciones totalmente aleatorias (50%) seguidas de 50 voraces (con el primer índice de la permutación aleatorio). Para la generación
+        de las soluciones aleatorias se seguirá la misma estrategia que en la práctica 1 (sacar sólo un aleatorio por índice, si está repetido incrementar el número en una unidad).
+
+        2. selección por torneo binario. Se realizarán 98 torneos para generar una población descendiente de tamaño N=98. (Puede haber repetición en el número de individuo generado).
+
+        3. cruce: valor de probabilidad de la operación. Si se da, cruce por order crossover: se seleccionan 2 índices en el rango 0..8. El primero de los índices que delimitan el intervalo será el de menor valor. (Puede haber repetición en los índices).
+
+        4. mutación: valor de probabilidad de la operación. Si se da, mutación por intercambio entre dos genes de la misma solución: se seleccionan dos índices en el rango 0..8. (Puede haber repetición en los índices, o que estos deshagan mutaciones anteriores).
+
+        5. reemplazo: a la población descendiente de tamaño N=98 se añadirán los dos individuos con mejor fitness de la población de partida, resultando una población de tamaño N=100
+
+    ************************
+    **NOTA IMPORTANTE:** Para ordenar la población por fitness se utiliza el algoritmo timsort (implementado por defecto para ordenación de objetos en Java/Python, desde la versión 7.0). Esta información es relevante, puesto que en caso de empate a fitness, el uso de otros algortimos de ordenación puede dar resultados diferentes a los de la traza.
+    *************************
+
+    En el fichero se muestra la siguiente información:
+
+        - POBLACIÓN INICIAL: 100 recorridos de inicialización, 50 de ellos generados de forma totalmente aleatoria y 50 mediante estrategia voraz. Se incluye el recorrido y la distancia.
+
+        - valores aleatorios de los índices seleccionados para el torneo (posición en la población, no índice de ciudad) y resultado de los torneos
+
+        - valores de probabilidad para el cruce. En caso de cruce, se indican los índices de los individuos de la población seleccionada tras el torneo, que serán cruzados con el operador order crossover. Dichos índices son una secuencia de pares en el rango [0,99]. Por último, se presentan los valores aleatorios del segmento de cruce (valores en 0..8, puesto que son índices de las ciudades).
+
+        - valores de probabilidad de mutación y resultado de la misma. En caso de mutación se indica el índice de la ciudad con que se intercambia cada alelo (valores en el rango 0..8).
+
+        - población tras el reemplazo: Los dos primeros individuos son los individuos de mejor fitness de la población original (que se conservan por elitismo). Los N-2 restantes corresponden a la población descendiente y están ordenados por fitness.
+
+
+    * ÚLTIMAS LÍNEAS
+        - resumen general de la ejecución: distancia mejor resultado, iteración en que se obtiene
+
+
+2. Fichero aleatorios_ce_10_2016.txt
+
+    Contiene números aleatorios enteros p en el rango [0, 1), que se usarán para:
+    - generación de valores de ciudades en la inicialización [int rango 1-9]
+    - generación de índices de soluciones en la población [int rango 0-99] para la selección por torneo
+    - valores de probabilidad de cruce y mutación [double rango 0-1)
+    - índices de ciudades para las operaciones de cruce y mutación [int rango 0-8]
+
+    Al igual que en las prácticas anteriores, es necesario transformar el aleatorio del rango [0, 1) al correspondiente en cada caso:
+        - [---RANDOM_CIUDAD]: floor(p * 9) + 1 -> [int rango 1-9]
+        - [---TORNEO-]: floor(p * 100) -> [int rango 0-99]
+        - [---PROB. CRUCE/MUTACIÓN]: sin transformación
+        - [---CRUCE. CORTE/MUTAC. ÍNDICE INTERCAMBIO]: floor(p * 9) -> [int rango 0-8]
+
+    En el problema real con 100 ciudades y población tamaño 100 las transformaciones correspondientes serán análogas:
+        - [---RANDOM_CIUDAD]: floor(p * 99) + 1 -> [int rango 1-99]
+        - [---TORNEO-]: floor(p * 100) -> [int rango 0-99]
+        - [---PROB. CRUCE/MUTACIÓN]: sin transformación
+        - [---CRUCE. CORTE/MUTAC. ÍNDICE INTERCAMBIO]: floor(p * 99) -> [int rango 0-98]
+
+
+    El orden de los números aleatorios es fundamental para interpretar correctamente su uso, por lo que se recomienda seguir la traza paso a paso.
+
+    Las operaciones que precisan números aleatorios siguen un patrón irregular. Por ejemplo, si para un valor de probabilidad de cruce la operación de cruce se realiza, los dos números siguientes corresponderán a los índices de las ciudades que se intercambian. Pero si la operación de cruce no se realiza el siguiente valor corresponderá típicamente al valor de probabilidad de la siguiente operación de cruce.
+
+
+3. A tener en cuenta para la generación de la traza:
+
+    Para facilitar el proceso de evaluación se comparará la traza generada por vuestra implementación con la traza de referencia, por lo que debéis
+    seguir exactamente el mismo formato a la hora de imprimir los resultados.
+
+    También es requisito que vuestra práctica pueda ejecutarse por línea de comandos y acepte los siguientes argumentos en este orden:
+        fichero_distancias [fichero_aleatorios]
+
+    El segundo argumento es opcional:
+        * Si no se le proporciona, vuestra implementación generará una secuencia de números aleatorios diferente en cada ejecución.
+        * Si se le proporciona, se utilizará la secuencia de valores proporcionados en el fichero.
+
+    La salida debe imprimirse por consola, de forma que se pueda ejecutar por línea de comandos de la siguiente forma:
+        * C/C++:	./ejecutable fichero_distancias [fichero_aleatorios] > traza_salida.txt
+        * Java:	java -jar fichero_distancias [fichero_aleatorios] > traza_salida.txt
+        * Python:	./script.py fichero_distancias [fichero_aleatorios] > traza_salida.txt
