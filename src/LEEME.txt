@@ -1,0 +1,1 @@
+Se se aplica un diff, aparecen erros. Isto debese a como redondea C ao imprimmir por pantalla. Polo resto son exactamente iguais as trazas xeradas.
