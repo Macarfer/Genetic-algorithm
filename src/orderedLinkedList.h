@@ -18,3 +18,4 @@ void addArrayFromPosition(int path[],int cost,int position);
 void addArrayInPosition(int path[],int cost,int position);
 int * getBestthElementArray(int th);
 int getBestthElementDistance(int th);
+void deleteAllBut(int number);

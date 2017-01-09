@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "fileManager.h"
 int main(int argc,char * argv[]){
-    int matrix[10][10];
+    int matrix[DIMENSION][DIMENSION];
     int distance=0;
     int i=0;
     openFile("distances_10.txt",matrix);
@@ -12,7 +12,7 @@ int main(int argc,char * argv[]){
         //printf("%d\t%d\n",atoi(argv[i]),atoi(argv[i+1]));
     }
 
-        distance+=matrix[atoi(argv[9])][atoi(argv[0])];
+    distance+=matrix[atoi(argv[DIMENSION-1])][atoi(argv[0])];
        // printf("%d\t%d\n",atoi(argv[99]),atoi(argv[0]));
         printf("Distancia: %d\n",distance);
 }

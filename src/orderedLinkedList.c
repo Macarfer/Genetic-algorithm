@@ -145,6 +145,20 @@ void deleteAllButTwo(){
   actualNode->next=NULL;
 }
 
+void deleteAllBut(int number){
+  int i=0;
+  node * actualNode = list->first->next;
+  for(;actualNode->next!=NULL;){
+    actualNode=actualNode->next;
+    i++;
+  }
+  for(i;i>(number-1);i-=1){
+    actualNode=actualNode->previous;
+      free(actualNode->next);
+  }
+  actualNode->next=NULL;
+}
+
 
 int * getArrayElement(int i){
   int j=0;
